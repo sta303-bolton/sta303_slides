@@ -1,0 +1,226 @@
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700);
+@import url(https://fonts.googleapis.com/css?family=Source+Code+Pro:400,700);
+@import url(https://fonts.googleapis.com/css?family=Overlock:400,700);
+
+body { 
+  font-family: 'Source Sans Pro'; sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  color: #333333;
+}
+h2 {
+  font-family: 'Overlock', sans-serif;
+  font-weight: 600;
+  color: #612464;
+  margin: 0em 0 0em 0;
+}
+h1, h3 {
+  font-family: 'Overlock', sans-serif;
+  font-weight: 600;
+  color: #612464;
+}
+a, a > code {
+  font-family: 'Source Sans Pro', sans-serif;
+  color: #612464;
+  text-decoration: none;
+}
+
+.header {
+  position: absolute;
+  top: 1em;
+  right: 2em;
+  font-size: 90%;
+}
+
+.footnote {
+  position: absolute;
+  bottom: 1em;
+  padding-right: 2em;
+  font-size: 90%;
+}
+.remark-code, .remark-inline-code { 
+  font-family: 'Source Code Pro', 'Lucida Console', Monaco, monospace; font-size:70%;
+}
+.remark-code-line-highlighted     { background-color: #ffff88; }
+
+.inverse {
+  background-color: #612464;
+  color: #ffffff;
+  /* text-shadow: 0 0 20px #333; */
+}
+.inverse h1, .inverse h2, .inverse h3, .inverse a {
+  color: #f3f3f3;
+}
+
+/* Four-column layout */
+.column4 {
+  float: left;
+  width: 23%;
+  padding: 4px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Three-column layout */
+.column {
+  float: left;
+  width: 30%;
+  padding: 10px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Two-column layout */
+.left-column {
+  color: #777;
+  width: 72%;
+  height: 92%;
+  float: left;
+}
+.left-column h2:last-of-type, .left-column h3:last-child {
+  color: #000;
+}
+.right-column {
+  width: 20%;
+  float: right;
+  padding-left: 1em;
+  padding-right: 0.5em;
+}
+.center {
+  text-align:center;
+}
+
+
+.pull-left {
+  float: left;
+  width: 47%;
+  padding-left: 0.5em;
+}
+.pull-right {
+  float: right;
+  width: 47%;
+  padding-right: 0.5em;
+}
+.pull-right ~ * {
+  clear: both;
+}
+.question {
+  background-color: #cbb1cc;
+  padding-top: 0.25px;
+}
+.highlight {
+  background-color: ##FFDD33;
+  padding-top: 0.25px;
+}
+ul {
+  list-style-type: square;
+}
+li{
+  margin: 0px 0;
+}
+.large { font-size: 130% }
+.midi { font-size: 90% }
+.small { font-size: 70% }
+.tiny { font-size: 60% }
+img, video, iframe {
+  max-width: 100%;
+}
+blockquote {
+  border-left: solid 5px lightgray;
+  padding-left: 1em;
+}
+table {
+  margin: auto;
+  border-top: 1px solid #666;
+  border-bottom: 1px solid #666;
+}
+table thead th { border-bottom: 1px solid #ddd; }
+th, td { padding: 5px; }
+thead, tfoot, tr:nth-child(even) { background: #eee }
+
+@page { margin: 0; }
+@media print {
+  .remark-slide-scaler {
+    width: 100% !important;
+    height: 100% !important;
+    transform: scale(1) !important;
+    top: 0 !important;
+    left: 0 !important;
+  }
+  .has-continuation {
+    display: block !important;
+  }
+}
+
+
+/* padding-XX: 10px drastically reduces margins  */
+.remark-slide-content{
+  font-size: 24px;
+  padding-top: 15px; 
+  padding-left: 15px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+}
+
+.remark-slide-content:after {
+    content: "";
+    position: absolute;
+    bottom: 5px;
+    right: 810px;
+    height: 70px;
+    width: 81px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    #background-image: url("img/sta199-logo-hex.png");
+}
+
+.element.style {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    height: 685px;
+    width: 700px;
+}
+
+.left-code {
+  color: #777;
+  width: 38%;
+  height: 92%;
+  float: left;
+}
+.right-plot {
+  width: 60%;
+  float: right;
+  padding-left: 1%;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+pre {
+  white-space: pre-wrap;
+}
+
+
+.vl {
+  border-left: 2px solid #612464;
+  height: 450px;
+  position: absolute;
+  left: 25%;
+  margin-left: -2px;
+  top: 28%;
+}
+
