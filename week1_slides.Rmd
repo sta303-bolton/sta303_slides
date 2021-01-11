@@ -440,7 +440,7 @@ name: tests
 
 ---
 class: middle, center
-## [Start the activity [link]](https://jupyter.utoronto.ca/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fsta303-bolton%2Fsta303_w1_slides&urlpath=shiny%2Fsta303_w1_slides%2Factivity&branch=master)
+## [Start the activity [link]](https://jupyter.utoronto.ca/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fsta303-bolton%2Fsta303_activities&urlpath=shiny%2Fsta303_activities%2Finst%2Ftutorials%2Fsta303_w1_tests%2F&branch=main)
 
 
 ---
