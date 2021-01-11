@@ -5,7 +5,7 @@
 body { 
   font-family: 'Source Sans Pro'; sans-serif;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 34px;
   color: #333333;
 }
 h2 {
@@ -82,19 +82,21 @@ a, a > code {
 
 /* Two-column layout */
 .left-column {
-  color: #777;
   width: 72%;
   height: 92%;
   float: left;
 }
 .left-column h2:last-of-type, .left-column h3:last-child {
-  color: #000;
+
 }
 .right-column {
-  width: 20%;
+  width: 22%;
   float: right;
   padding-left: 1em;
   padding-right: 0.5em;
+}
+.right-column ~ * {
+  clear: both;
 }
 .center {
   text-align:center;
@@ -104,7 +106,6 @@ a, a > code {
 .pull-left {
   float: left;
   width: 47%;
-  padding-left: 0.5em;
 }
 .pull-right {
   float: right;
@@ -130,6 +131,7 @@ li{
 }
 .large { font-size: 130% }
 .midi { font-size: 90% }
+.midsmall { font-size: 80% }
 .small { font-size: 70% }
 .tiny { font-size: 60% }
 img, video, iframe {
@@ -165,7 +167,7 @@ thead, tfoot, tr:nth-child(even) { background: #eee }
 
 /* padding-XX: 10px drastically reduces margins  */
 .remark-slide-content{
-  font-size: 24px;
+  font-size: 30px;
   padding-top: 15px; 
   padding-left: 15px;
   padding-right: 10px;
