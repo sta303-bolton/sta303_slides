@@ -293,7 +293,7 @@ summary(lm(signed_rank(x1 - x2) ~ 1))</code></pre>
  \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
  1 &amp; x_{n1} &amp; \cdots &amp; x_{np}
  \end{pmatrix}\]</span></p>
-<p>We often talk about <strong>X</strong> as the <strong>model matrix</strong> and it will be the focus of this section.</p>
+<p>We often talk about <strong>X</strong> as the <strong>model matrix</strong> (or design or regressor matrix) and it will be the focus of this section.</p>
 </div>
 <div id="section-getting-our-model-matrix-in-r" class="section level3">
 <h3>Getting our model matrix in R</h3>
@@ -318,17 +318,20 @@ summary(mod4)</code></pre>
 <pre class="text"><code>model.matrix(mod4)</code></pre>
 </div>
 <p>You’ll notice that even though we only had an intercept and two variables, we have four columns in our model matrix. You should also notice that R has given the columns helpful names, and that we have a column for the Chinstrap species and the Gentoo species, but not the Adelie species.</p>
-<p>What R is doing is dropping the first level (alphabetically) of the categorical variable and then create <strong>dummy variables</strong> for each of the other levels.</p>
-<p>The dropped level becomes our reference level and this should be familiar from interpreting summary output for multiple linear regressions you have performed with categorical variables.</p>
-<p>A dummy variable is also called an indicator variable, and it <em>indicates</em> whether or not the given observation takes that level or not.</p>
-<p>The sum across the row of the dummy variables for one categorical variable will either be 0 (in the reference level) or 1 (not in the reference level) but you will never have more than one ‘one’ amongst the dummies for a certain categorical variable.</p>
+<p>Further, recall that when we are working with a categorical variables we call the different values the the variables can take ’‘<strong>levels"</strong>. I may also refer to these as factor variables, and talk about the’’levels of the factor".</p>
+<p>What R is doing is dropping the first level (alphabetically) of the categorical variable and then creating <strong>dummy variables</strong> for each of the other levels.</p>
+<p>The dropped level becomes our <strong>reference level</strong> and this should be familiar from interpreting summary output in previous courses where you have conducted multiple linear regressions with categorical variables.</p>
+<p>A dummy variable is also called an indicator variable, and it <em>indicates</em> whether or not the given observation takes that level or not. I.e., if the 40th penguin in this dataset had a 1 in the speciesGentoo column, then I know it is a Gentoo penguin, and that it won’t have a 1 in the speciesChinstrap column because each penguin can only have one species.</p>
+<p>More generally, the sum across the row of the dummy variables for one categorical variable will either be 0 (if that observation has the reference level) or 1 (not the reference level) but you will never have more than one ‘one’ amongst the dummies for a given categorical variable.</p>
 <div id="section-why-do-we-have-to-drop-one-of-the-levels" class="section level4">
 <h4>Why do we have to drop one of the levels?</h4>
-<p>So, why do</p>
 </div>
 </div>
 <div id="section-contrasts" class="section level3">
 <h3>Contrasts</h3>
+</div>
+<div id="section-two-sample-t-tests" class="section level3">
+<h3>Two-sample t-tests</h3>
 </div>
 </div>
 <div id="section-anova" class="section level2">
@@ -337,7 +340,7 @@ summary(mod4)</code></pre>
 </div>
 <div id="section-credits" class="section level2">
 <h2>Credits</h2>
-Credit to <strong>Jonas Kristoffer Lindeløv</strong> for the excellent resource this section is based on. <a href="https://lindeloev.github.io/tests-as-linear/">There are more examples there than we will cover in this course.</a> 
+Credit to <strong>Jonas Kristoffer Lindeløv</strong> for the excellent resource this resource is based on. <a href="https://lindeloev.github.io/tests-as-linear/">There are more examples there than we will cover in this course.</a> 
 <script type="application/shiny-prerendered" data-context="server-start">
 install.packages("palmerpenguins", repos = "https://cloud.r-project.org")
 

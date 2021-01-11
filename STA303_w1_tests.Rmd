@@ -256,8 +256,7 @@ $$X = \begin{pmatrix} \mathbf{x}^\mathsf{T}_1 \\ \mathbf{x}^\mathsf{T}_2 \\ \vdo
  1 & x_{n1} & \cdots & x_{np}
  \end{pmatrix}$$
 
-We often talk about **X** as the **model matrix** and it will be the focus of this section.
-
+We often talk about **X** as the **model matrix**  (or design or regressor matrix) and it will be the focus of this section.
 
 ### Getting our model matrix in R
 
@@ -308,25 +307,34 @@ grade_result(
 
 You'll notice that even though we only had an intercept and two variables, we have four columns in our model matrix. You should also notice that R has given the columns helpful names, and that we have a column for the Chinstrap species and the Gentoo species, but not the Adelie species.
 
-What R is doing is dropping the first level (alphabetically) of the categorical variable and then create **dummy variables** for each of the other levels.
+Further, recall that when we are working with a categorical variables we call the different values the the variables can take ''**levels"**. I may also refer to these as factor variables, and talk about the ''levels of the factor". 
 
-The dropped level becomes our reference level and this should be familiar from interpreting summary output for multiple linear regressions you have performed with categorical variables. 
+What R is doing is dropping the first level (alphabetically) of the categorical variable and then creating **dummy variables** for each of the other levels.
 
-A dummy variable is also called an indicator variable, and it *indicates* whether or not the given observation takes that level or not.
+The dropped level becomes our **reference level** and this should be familiar from interpreting summary output in previous courses where you have conducted multiple linear regressions with categorical variables. 
 
-The sum across the row of the dummy variables for one categorical variable will either be 0 (in the reference level) or 1 (not in the reference level) but you will never have more than one 'one' amongst the dummies for a certain categorical variable.
+A dummy variable is also called an indicator variable, and it *indicates* whether or not the given observation takes that level or not. I.e., if the 40th penguin in this dataset had a 1 in the speciesGentoo column, then I know it is a Gentoo penguin, and that it won't have a 1 in the speciesChinstrap column because each penguin can only have one species.
+
+More generally, the sum across the row of the dummy variables for one categorical variable will either be 0 (if that observation has the reference level) or 1 (not the reference level) but you will never have more than one 'one' amongst the dummies for a given categorical variable.
 
 #### Why do we have to drop one of the levels?
 
-So, why do 
+You may recall that for
+
 
 ### Contrasts
 
-### Two-sample t-tests
+#### Dummy coding
+
+#### Simple coding
+
+#### Deviation coding
+
+## Two-sample t-tests
 
 ## ANOVA
 Back to to the tests! 
 
 ## Credits
 
-Credit to **Jonas Kristoffer Lindeløv** for the excellent resource this section is based on. [There are more examples there than we will cover in this course.](https://lindeloev.github.io/tests-as-linear/)
+Credit to **Jonas Kristoffer Lindeløv** for the excellent resource this resource is based on. [There are more examples there than we will cover in this course.](https://lindeloev.github.io/tests-as-linear/)

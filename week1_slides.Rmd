@@ -81,8 +81,8 @@ name: admin
 .left-column[
 
 You can call me:
-- **Prof. Bolton** (like "bowl" `r emo::ji("bowl")` and "ton" `r emo::ji("weight")`), or 
-- **Liza** (like "lie" (to tell a lie `r emo::ji("lie")`) and "zah" (like the end of Pizza `r emo::ji("pizza")`)).
+- **Prof. Bolton** like "bowl" `r emo::ji("bowl")` and "ton" `r emo::ji("weight")`, or 
+- **Liza** like "lie" (to tell a lie `r emo::ji("lie")`) and "zah" (like the end of Pizza `r emo::ji("pizza")`).
 
 
 (Names are important, if I'm saying yours incorrectly, please tell me!)
