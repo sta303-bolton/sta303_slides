@@ -1,0 +1,504 @@
+---
+title: "STA303H1S/1002H Week 2"
+subtitle: "Data wrangling and visualisation" 
+author: "Prof. Liza Bolton"
+date: "January 18, 2021"
+output:
+  xaringan::moon_reader:
+    css: "slides_303.css"
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: 16:9
+---
+
+```{r setup, include=FALSE}
+# R options
+options(
+  htmltools.dir.version = FALSE, # for blogdown
+  show.signif.stars = FALSE,     # for regression output
+  warm = 1,
+  crayon.enabled = FALSE
+  )
+# Set dpi and height for images
+library(knitr)
+opts_chunk$set(fig.height = 2.65, dpi =300, warning=FALSE, message=FALSE) 
+# ggplot2 color palette with gray
+color_palette <- list(gray = "#999999", 
+                      salmon = "#E69F00", 
+                      lightblue = "#56B4E9", 
+                      green = "#009E73", 
+                      yellow = "#F0E442", 
+                      darkblue = "#0072B2", 
+                      red = "#D55E00", 
+                      purple = "#CC79A7")
+# For nonsese...
+#library(mdsr)
+#library(emo)
+library(tidyverse)
+#library(gridExtra)
+htmltools::tagList(rmarkdown::html_dependency_font_awesome())
+### xaringan::inf_mr() -> use this for display within Rstudio
+
+xaringanExtra::use_share_again()
+xaringanExtra::style_share_again(
+  share_buttons = "none"
+)
+
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clipboard\"></i>",
+    success_text = "<i class=\"fa fa-check\" style=\"color: #90BE6D\"></i>",
+    error_text = "<i class=\"fa fa-times-circle\" style=\"color: #F94144\"></i>"
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+```
+
+name: topics
+
+## Topics
+You can click the following links to navigate through the slides.
+
+* [Follow-ups from the check-in survey](#admin)
+* [Data wrangling and visualisation [readings]](#dataviz)
+* [Tidy data](#tidy)
+* [Student grades case study](#casestudy)
+* [Common misconceptions about data analysis and statistics [reading]](#reading)
+* [Paraphrasing](#paraphrase)
+
+---
+class: middle, center, inverse
+name: admin
+# Follow-ups from the check-in survey
+
+.header[<u>[Go to topics list](#topics)</u>]
+
+---
+## Thank you for completing the end-of-week check-in!
+
+.midsmall[
+I've tried to respond to/clarify based on the main themes that came through. On the following slides, I'll also talk about Team Up!, workload, writing, joining off the waitlist, Quercus and the upcoming assessments.
+
+* *Do you need to turn anything in for the **reprex** part of the Week 1 module?* Nope! Just please keep that content handy for when you start posting code questions on Piazza. It makes it much easier to get to the root of code problems.
+* *What's the **difference between `anova()` and `aov()`**?* Braodly, `aov()`, as we saw in Week 1, fits a model. It is, in fact, just a wrapper for `lm()`. `anova()`, which you're probably familiar with from STA302, can be used to compare two models, where one model is nested in the other.  In those cases, we're testing if the more complicated model seems necessary or if the simpler model appears to explain the data just as well.
+* **Non-parametric tests** aren't going to be assessed, but I'd feel embarrassed if you got to grad school/your first job, and someone mentioned them to you and you'd never heard of them before.
+* What do I **assume you know** coming in to STA303? I assume you're familiar with the content from second-year stats courses and STA302. This means interpretting p-values and confidence intervals, conducting linear regression, understanding the asssumptions of linear regression, being able to interpret interaction terms. Knowledge of `dplyr` and `ggplot` an advantage, but not assumed. E.g., this week is going to easy revision for some and a load of new content for others. I'm hoping it will get us all more on the same page going forwards!]
+
+.footnote[.small[Didn't do the check-in? Look out for future ones in the Friday end-of-week wrap up.]]
+---
+## Team Up! activities
+
+.left-column[
+  + _What are Team Up! activities?_ In some synchronous classes we'll have opportunities to do team-based learning activities. The goal is to help you make connections in class, practice oral communication, reap the benefits of hearing the range of ways different people expalin and understand things, and clarify your understanding. I've added a bunch to the [FAQ page](https://q.utoronto.ca/courses/204826/pages/faq) about them, mostly what you would have read in Friday's announcement. 
+    + The asynchronous revision version (with commentary about the correct answers) is now available in the Week 1 module. Direct link [here](https://jupyter.utoronto.ca/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fsta303-bolton%2Fsta303_activities&urlpath=shiny%2Fsta303_activities%2Finst%2Ftutorials%2Fw1_class%2F&branch=main).
+* _When does the driver need to submit by?_ Make sure you submit by the end of the class (i.e. 1 p.m. or 4 p.m.) as it won't save when I unlink the assignment unless you do.]
+
+.right-column[
+```{r, echo=FALSE, fig.align='center', out.width="100%"}
+include_graphics("images/w2/teamwork.jpg")
+```
+] 
+
+---
+## Workload
+
+.midi[
+I've been asked several questions about workload. In the [syllabus](https://q.utoronto.ca/courses/204826/assignments/syllabus), I've alrady laid out my expectations, but I think it might be helpful to emphasise this again and be as clear as possible.]
+
+### My assumptions when planning a course:
+.midi[
+* A full course load is usually considered 2.5 credits per semester, often across **5 classes**. 
+* In employment, a full-time work week is usually considered about **37.5 hours**. 
+* Students are usually given the (good!) advice to **treat a full-time course load at university like a full-time job**.
+
+
+$$\frac{37.5\text{ hours}}{5\text{ courses}} = 7.5\text{ hours per course}$$
+
+
+With this in mind, I don't feel too greedy claiming that you should be **spending 6 to 8 hours on STA303 a week**. 
+
+Do you disagree with any of my assumptions?]
+
+
+---
+## Workload cont.
+
+.midsmall[I also know some of you may be used to/prefer managing your time around the 'few and large' assessment approach a lot of courses have when in-person. But I don't think that makes multiple 'smaller and often' deadlines unreasonable. Again, from a work and employability perspective, if this is *hard* for you, improving though STA303 is something you can give as a tangible exampe in interviews about how you developed strategies to manage your time and keep on top of deadlines.
+
+That said, I also know small deadlines can get forgetten easily and/or there may be times when they take lower priority than other things. That's why I've given you **flexibility** with the **'best of' policies** for the quizzes and weekly writing and peer feedbacks.
+
+So, how do I imagine you're using your 6 to 8 hours?
+*	1–2 hours of videos and readings
+*	30 minutes weekly quiz (you’ll have an hour, but the intention is that it shouldn’t take that long)
+*	1 hour of attending synchronous class or reviewing the recording and activities
+*	30 minutes weekly writing create phase
+*	30 minutes weekly writing assess phase
+*	5 minutes weekly writing reflect phase
+*	Remaining time attending office hours and working on current assessments.
+]
+---
+## Writing in STA303
+.midi[
+I know some of you ~~hate~~ don't like writing. And while I hope this course will help change your mind, even if it doesn't, writing is an extremely important skill for statisticians/data scientists and anyone who is a 'knowledge worker'. If someone told you that you'd never have to write again if you got a job in STEM, I'm very sorry, but they definitely lied to you. And this isn't a particular quirk of mine (though it is something I really care about), it is an area more generally that our department is seeking to help students improve in.
+
+**Why?** Here is a definitely not exhaustive list:
+
+* When I'm writing references for students for **grad school**, most Statistics/Business Analytics/Information/Data Science programs ask me to rate the student's ability to write in English. This is becuase they'll will be writing reports/theses etc. 
+    + If you're aiming for grad school, many admissions offices ask for a written personal statement that will require you to write clearly, succinctly and show a capacity for reflection. (I think the professional development proposal and relfection will be helpful to you in practicing this.)
+* **Employers** say our students have great technical skills but can be lacking in their communication skills. Oral and writtne communication are key to being able to understand/relay business needs, work on a project in a team and turn data and analysis into actionable insights.
+]
+
+---
+## Folks joining off the waitlist
+
+* Make sure you work through the '[How this course works](https://q.utoronto.ca/courses/204826/modules/329419)' module and the '[Week 1](https://q.utoronto.ca/courses/204826/modules/329421)' module.
+    + You can find the recordings from Wednesday's class on the [course overview page](https://q.utoronto.ca/courses/204826/pages/course-overview), as well as the link to the asynchronous revision version of the class activity.
+* You don't have to submit anything you've missed, as the relevant assessments are covered by the 'best of' policies. (See the [syllabus](https://q.utoronto.ca/courses/204826/assignments/syllabus).)
+
+<br>
+<br>
+
+**Aside**: To everyone, while I of course hope you're not wanting to drop this course, if you are considering it, I do want you to make the best choice for you. 
+
+One thing to consider, if at all possible, is to try to make up your mind *before* Jan 21, as this will make room for waitlisted students who have expressed interest in this course.
+
+---
+## Quercus
+
+.midsmall[
+The responses to the Quercus page are so different I almost can't believe you're all seeing the same course! A lot of positive messages about the organisation and people saying it is easy to navigate, but then plenty of others who seem very confused. This may just be down to preference/how people think about things, but any concrete requests welcome. .small[(One idea from y'all I was interested in was putting all the resources for each week on one page, but I would like to keep going with modules for now as it makes it easier to link to/refer to specific 'content chunks'. Based on your feedback I will also provide a pdf version of the full slides for each week.)]
+
+Things to know about navigating our Quercus page:
+* A you'll see on the ['How this course works'](https://q.utoronto.ca/courses/204826/pages/how-this-course-works?module_item_id=1715900) page, each week is organised into a Quercus module. Please watch the [Quercus tour](https://q.utoronto.ca/courses/204826/pages/w1-quercus-tour?module_item_id=2184781) to get a sense of how I intend for you to navigate this course.
+* The most important single page is the [Course overview](https://q.utoronto.ca/courses/204826/pages/course-overview). It gets updated with links to upcoming assessments, weekly modules and class resouces.
+* The [**homepage**](https://q.utoronto.ca/courses/204826/) has links to the things I think you'll use most, organised in the following coloured button groups:
+    + *general information sources* in purple, 
+    + *links to class Zoom calls* in light grey, 
+    + *links to coursework overview pages* in dark blue, 
+    + *other course/U of T resources* in dark grey.
+]
+
+.small[
+Note: The home page doesn't look great on mobile/tablet. I hope you have access to a laptop/desktop for your coursework.   
+There are finanical assistance sources for tech through U of T on the [Services and supports page](https://q.utoronto.ca/courses/204826/pages/services-and-support).
+]
+
+---
+## Upcoming assessments
+
+I talked about each of these in the [Quercus tour](https://q.utoronto.ca/courses/204826/pages/w1-quercus-tour?module_item_id=2184781) last week and expect you to watch that video if you haven't yet. I'll talk more about these in class this week, too.
+
+* [Professional development task](https://q.utoronto.ca/courses/204826/assignments/506359): proposal (due Friday, Jan 29 at 6:00 p.m. ET)
+    + Choose a goal to work towards this semester that will help you develop communication and collaboration skills.  
+    + The proposal should lay out your plan using the SMART goal framework.
+* [Polished writing 1](https://q.utoronto.ca/courses/204826/assignments/506351) (due Friday, Feb 5 at 6:00 p.m. ET)
+  + You will choose one of the weekly writing tasks from Week 1, 2 or 3 to improve and submit for marking by the teaching team.  
+  + The rubric will be similar to what you've already seen for these acitivities. Use peer feedback to help you improve the writing.
+* [Data exploration
+assessment](https://q.utoronto.ca/courses/204826/assignments/415115) (due Friday, Feb 12 at 6:00 p.m. ET)
+  + Will be released this week (I'm hoping well before Wednesday's class, but we shall see.)
+
+
+---
+class: middle, center, inverse
+name: dataviz
+# Data wrangling and visualisation [readings]
+
+.header[<u>[Go to topics list](#topics)</u>]
+
+---
+## Readings (+ story time)
+
+Hadley Wickham is a bit of rockstar `r emo::ji("man_singer")` in the R world $^1$. If you took part in the Independent Summer Statistics Community (ISSC) over the summer, you're probably already well aware of my love for his and Garrett's excellent book, _R for Data Science_. When I  brought on a new consultant for my business in New Zealand, he was transitioning from organic chemistry and wanted to become a better data analyst. He worked through this book and in just a few months was leading the analysis for client engagements. It is also the first resource to which I point students who are interested in extra materials for data science.
+
+In the case study sections of this module, I'll walk you through a case study using a range of the functions introduced in these chatpers and some personal favourites. After these reading and the case study, you should be ready to start your [data exploration assessment](https://q.utoronto.ca/courses/204826/assignments/415115). 
+
+**Wickham & Grolemund. _R for Data Science_. 2017 [Chapter 3: Data Visualization](https://r4ds.had.co.nz/data-visualisation.html) and [Chapter 5: Data transformation](https://r4ds.had.co.nz/transform.html)**
+
+.footnote[.midsmall[1 My friend literally got him to sign their laptop...]]
+
+
+---
+class: middle, center, inverse
+name: casestudy
+# Tidy data
+
+.header[<u>[Go to topics list](#tidy)</u>]
+
+---
+
+## A bit of advice...
+
+--
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">If I had one thing to tell biologists learning bioinformatics, it would be &quot;write code for humans, write data for computers&quot;.</p>&mdash; Vince Buffalo (@vsbuffalo) <a href="https://twitter.com/vsbuffalo/status/358699162679787521?ref_src=twsrc%5Etfw">July 20, 2013</a></blockquote>
+
+--
+
+This advice applies to everyone learning how to work with data.
+
+--
+
+The `dplyr` functions we are learning help us **"write code for humans"**, but how do we **"write data for computers"**?
+
+
+--
+
+<blockquote><p>"It is often said that 80% of data analysis is spent on the process of cleaning and preparing the data"</p> &mdash; Hadley Wickham, creator of <code>tidyverse</code> and developer of <code>dplyr</code></blockquote>
+
+--
+.large[We need **tidy** data.]
+
+---
+class: middle, center
+
+<img src="images/w2/unruly.png" height=450>  
+.tiny[Artwork by [@allison_horst](https://twitter.com/allison_horst)] 
+
+---
+## Tidy data
+
+There are three interrelated rules which make a dataset tidy:
+
+1. Each **variable** must have its own **column**.
+2. Each **observation** must have its own **row**.
+3. Each **value** must have its own **cell**.
+
+.center[<img src="images/w2/image_tidyData.png" style="width:8in">]
+.small[.pull-right[Image from: https://r4ds.had.co.nz/tidy-data.html]]
+
+---
+
+## Recognizing Tidy Data
+
+> "For a given dataset, it is usually easy to figure out what are observations and what are variables, but it is surprisingly difficult to precisely define variables and observations in general." (Wickham, 2014)
+
+<br>
+
+A general rule of thumb: 
+
+- It is easier to describe functional relationships between variables (e.g., z is a linear combination of x and y, density is the ratio of weight to volume) than between rows. 
+
+- It is easier to make comparisons between groups of observations (e.g., average of group A vs. average of group B) than between groups of columns.
+
+(Wickham, 2014)
+
+---
+class: middle
+## Further reading (optional)
+
+While I know many of you will have covered tidy data in STA130, I know others will not be familiar with it. You will need to be able to think about whether or not your data is tidy for your data explortation assessment
+
+**Wickham & Grolemund. _R for Data Science_. 2017 [Chapter 12: Tidy data](https://r4ds.had.co.nz/tidy-data.html)**
+
+
+
+---
+class: middle, center, inverse
+name: casestudy
+# Student grades case study
+
+.header[<u>[Go to topics list](#topics)</u>]
+
+---
+## Student grades case study
+
+There are (at least) two ways you could approach this case study:
+
+a) Try it yourself first with the file that has "_guided" in the name and then watch the video.  
+b) Follow along with the video. I'll be using the file with "_minimal" in the name.
+
+I've tried to design it so either way will work, but I think following along with the video _might_ be the best use of your time, if it works for your learning style. 
+
+[**Case study on the Jupyter Hub**](https://jupyter.utoronto.ca/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fsta303-bolton%2Fsta303_activities&urlpath=rstudio%2F&branch=main)
+
+[Video link: Set up](https://play.library.utoronto.ca/6f87f2df36d49522514fb4d638967b52)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Video link: Data wrangling](https://play.library.utoronto.ca/56e0b46e07f3af60f346518ef7f1e478)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Video link: Data viz](https://play.library.utoronto.ca/56e0b46e07f3af60f346518ef7f1e478)
+
+Note: You'll have to navigate to the Home directory in the Files pane to find this activity in `STA303_activities/week_2`. See the [instructions](https://q.utoronto.ca/courses/204826/pages/course-tools?module_item_id=2176220#jupyter) from the 'How this course works' module. 
+
+---
+class: middle, center, inverse
+name: reading
+# Common misconceptions about data analysis and statistics [reading]
+
+.header[<u>[Go to topics list](#topics)</u>]
+
+---
+## Reading for weekly writing task
+
+For this week's writing task, you are being asked to write some advice to future you, based on the article *Common misconceptions about data analysis and statistics* by Harvey J. Motulsky.
+
+Focus on what surprised you, what you didn't know before, what you don't want to forget. You can disagree with the article's claims, too.
+
+Motulsky, H.J., 2014. _Common misconceptions about data analysis and statistics_. https://doi.org/10.1007/s00210-014-1037-6
+
+**Direct link: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4203998/pdf/210_2014_Article_1037.pdf**
+
+
+
+.footnote[`r emo::ji("fire")` tip: This article is also fair game for the quiz and Team Up! (TBA)...]
+
+---
+class: middle, center, inverse
+name: paraphrase
+# Paraphrasing
+
+.header[<u>[Go to topics list](#topics)</u>]
+
+---
+class: middle
+
+## A quick note
+
+*This section has been prepared by our Head TA, Amin.* 
+
+*STA303 and Amin's rolle is supported by the Faculty of Arts and Science's English Language Learning and Writing teams. If you have particular challenges or questions about writing and communication, let us know! We may be able to direct you to specific resources and/or make STA303 specific ones.*
+
+*This section will help you with your [weekly writing task](https://q.utoronto.ca/courses/204826/assignments/506340) this week.*
+
+---
+## Paraphrasing
+
+**Paraphrasing** is re-writing someone else’s statement in your own words. To paraphrase well you need to (1) **provide a reference** (avoid plagiarising) and (2) **understand** the text and **write** in your own words and create new sentence structures [see: https://advice.writing.utoronto.ca/using-sources/paraphrase/].  
+
+---
+## Example activity prompt
+.midi[
+Paraphrase the below text and provide your conclusions from the observations in the text and the graph in 100 to 200 words. The report is from Statistics Canada (Provencher, Milan, Hallman, & D’Aoust, 2018):]
+
+.small[
+.highlight[**Note: To avoid plagiarism**], I have:  
+(1) placed quotation marks ("") around the verbatim text copied and pasted below, and  
+(2) provided a reference in the previous sentence (Provencher, … 2018) and the complete citation at the end under “References”.] 
+
+.pull-left[.small[
+ > "The annual growth in the number of births in the past five years has fluctuated, compared with the period from 2002/2003 to 2008/2009, when it remained positive and stronger (2.1% on average). Between 2011 and 2012 and between 2013 and 2014, the number of births rose around 1.0% across Canada, while they fell 0.4% from 2012 to 2013 and from 2014 to 2015. There was only a small increase of 0.2% between 2015 and 2016. Since 2001, the total number of births fell only four times, in 2001/2002 and 2009/2010, and more recently in 2012/2013 and 2014/2015."]]
+ 
+.pull-right[ 
+```{r, echo=FALSE, fig.align='center', out.width="100%"}
+include_graphics("images/w2/paraphrase.png")
+```
+.small[Source: Provencher, Milan, Hallman, & D’Aoust, 2018]
+]
+
+---
+class: middle, center
+
+The following slides provide guidance on what poor, adequate and excellent paraphrasing could look like. You will be putting this into practice with this week's [weekly writing](https://q.utoronto.ca/courses/204826/assignments/506340) task.
+
+---
+## Sample partial/complete answers with overall gradings: 
+
+## .redify[Poor]
+
+*	No change in structure:
+
+*The .redify[~~annual growth~~] .bluify[yearly increase] in the number of births in the .redify[~~past~~] .bluify[last] five years has .redify[~~fluctuated~~] .bluify[varied], compared with in contrast to the period from...*
+
+*	Still too similar to the original text, despite change in word and verb tense:
+
+*There .redify[~~was~~] .bluify[is] only a .redify[~~small~~] .bluify[tiny] increase of 0.2% between 2015 and 2016...*
+
+*	Copying/pasting verbatim is NOT paraphrasing. 
+
+---
+## Sample partial/complete answers with overall gradings: 
+
+## Adequate
+
+*	Changes in wording and structure but vague—does not help the reader understand the main points in context of location or time, nor does it provide the source of information.
+
+*The number of births has fluctuated over time. There are times when the number is relatively high and sometimes it is relatively low. Not all increases were large with some being as little as 0.2%...*
+
+This is adequate in that it is not obviosuly an academic integrity offense but it would
+
+---
+## Sample partial/complete answers with overall gradings: 
+
+## Excellent
+
+.midi[
+*	Changes in wording and structure. Provides a good overview. 
+*	Conclusion with appropriate hedging: "...may have been a contributing factor..."
+*	A shorter version without explaining all the points would have been okay too. 
+*	Stating the reason for observation is unknown and may require further inquiry would have been okay too.
+
+*Based on the 2018 report provided by Statistics Canada, yearly birth growth in Canada was initially increasing from 2001/2002 up till 2008/2009 but then slowed down. At its peak, yearly birth growth reached nearly 4% while at its lowest, after 2008/2009, birth growth was even slightly negative at times. The number of births fell 4 times from 2001 to 2016, with 3 out of 4 of these times being in the second half of 2001 – 2016. All these observations point toward a possible change at that time to disrupt the trends midway in 2008. The timing of the lowering of birth numbers coincides with the 2008 financial crisis in Canada and this may have been a contributing factor as families may have not had the financial certainty to have kids. A close examination of contributing factors through research is needed to see if this is true.*
+]
+
+---
+## How to approach paraphrasing?
+
+.highlight[Method to understand text]:  
+
+Based on a method suggested by (Swales & Feak, 2012), identify:
+  + important points from the text, 
+  + relationships, 
+  + linking phrases, 
+  + connectors, and 
+  + synonyms. 
+  
+On the next slide is an example of how you might have taken notes on the example paragraph to aid your paraphraasing. You don’t need to submit anything like this as part of your weekly writing assignment. Submit the response to the prompt only.
+
+---
+## Example using the Swales & Feak (2012) approach
+
+.small[
+.pull-left[
+#### Important points (your notes)
+*	Number of births has fluctuated in past 5 years.
+*	The first half of 2001 – 2016 period saw an average increase in births.
+*	The second half of 2001 – 2016 period saw an average increase in births.
+*	Number of births fell 4 times from 2001 to 2016, with 3 out of 4 of these times being in the second half of 2001 – 2016.  
+
+#### Relationship between points
+*	Chronological order (more to less)
+*	Asymmetry in distribution of events
+
+#### Linking phrases and expressions to use in paraphrasing
+*	but
+*	while
+]
+
+.pull-right[
+#### Verbs that might establish other relationships in paraphrasing
+*	Increase 
+*	Decrease [not used, slowing down uses instead]
+*	Coincides
+
+#### Possible synonyms to use when paraphrasing
+*	fluctuated → varied [+between, +around], changed [not used]
+*	compared with → in contrast to [not used]
+*	annual→ yearly
+*	rose / remained positive and stronger→ increased
+
+#### Other considerations
+*	Who is the audience?
+
+You are ready to re-write the report in your own words!
+]]
+
+---
+## References
+
+Provencher, C., Milan, A., Hallman, S., & D’Aoust, C. (2018). Report on the Demographic Situation in Canada. Fertility: Overview, 2012 to 2016. Statistics Canada. Retrieved from http://www150.statcan.gc.ca/n1/pub//91-209-x/2018001/article/54956-eng.htm
+
+
+Swales, J., & Feak, C. B. (2012). Academic writing for graduate students : essential tasks and skills (3rd ed.). Ann Arbor: University of Michigan Press.
+
+---
+class: inverse, middle
+
+# See you Wednesday for class!
+
+.header[<u>[Go to topics list](#topics)</u>]
+
+```{r eval = FALSE, echo = FALSE}
+
+pagedown::chrome_print("sta303_w2_slides.html", wait = 20)
+
+```
+
