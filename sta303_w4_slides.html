@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>STA303H1S/1002H Week 4</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Prof. Liza Bolton" />
+    <meta name="date" content="2021-02-01" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/shareon/shareon.min.css" rel="stylesheet" />
+    <script src="libs/shareon/shareon.min.js"></script>
+    <link href="libs/xaringanExtra-shareagain/shareagain.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-shareagain/shareagain.js"></script>
+    <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"<i class=\"fa fa-clipboard\"><\/i>","success":"<i class=\"fa fa-check\" style=\"color: #90BE6D\"><\/i>","error":"<i class=\"fa fa-times-circle\" style=\"color: #F94144\"><\/i>"})</script>
+    <link rel="stylesheet" href="slides_303.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# STA303H1S/1002H Week 4
+## Maximum likelihood; Correlated data
+### Prof. Liza Bolton
+### February 01, 2021
+
+---
+
+
+
+
+name: topics
+
+## Topics
+You can click the following links to navigate through the slides (in the HTML version).
+
+* [Follow-ups from the check-in survey](#admin)
+* [Introduction to Week 4 topics](#intro)
+* [Correlated data reading](#corr-reading)
+* [Key vocabulary](#vocab)
+* [Statdew valley interactive](#statdew)
+* [Maximum likelihood notes and reading](#mle)
+* [Polishing your writing](#write)
+
+---
+class: middle, center, inverse
+name: admin
+# Follow-ups from the check-in survey
+
+.header[&lt;u&gt;[Go to topics list](#topics)&lt;/u&gt;]
+
+---
+## Thank you for completing the end-of-week check-in!
+
++ "Weeky writing is taking me a long time." 
+  * __Weekly writing__ is participation based. To make it sustainable, try forcing yourself to stick to the [**30 minutes recommended in the Syllabus for the Create phase**](https://q.utoronto.ca/courses/204826/assignments/syllabus). (Not including any readings, as that is counted separately.)
+  * Even with just this 30 minutes of weekly practice, I think you'll be impressed with how your writing will improve across the semester!
++ "Could you post __sample exercise problems__ that could help prepare for assessments?"
+  * In my planning, that is the purpose of the case studies and interactives. The week 2 case study was designed *after* I'd written your data exploration assessment so that I could make sure I was including examples of almost all the skills you'd need. 
+  * If you missed it, the completed version is available on JupyterHub, you may need to update it by clicking the [access link again](https://jupyter.utoronto.ca/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fsta303-bolton%2Fsta303_activities&amp;urlpath=rstudio%2F&amp;branch=main). You can also see the [PDF here.](https://q.utoronto.ca/courses/204826/files/12157221?module_item_id=2272650)
+  
+.footnote[Didn't do the check-in? Look out for future ones in the Friday end-of-week wrap-up 🎁.]
+
+---
+## End-of-week check-in (cont.)
+
+* "There are too many small tasks and too many papers to read."
+  * See the __workload__ comments from [week 2](https://sta303-bolton.github.io/sta303_slides/sta303_w2_slides#6) for some guidance. 
+  * A goal of STA303 is to help you in your next steps, be that grad school or industry. Keeping track of multiple tasks and synthesizing information from multiple sources and formats are fundamentally important skills. That doesn't mean it is easy right away! Use this class as a chance to build those skills. 
+  * You can also [book an appointment with a learning strategist](https://studentlife.utoronto.ca/service/learning-strategist-connections/) to help you. Think of them like a coach for an athlete, but your sport is learning and getting stuff done! 🤓🏅
+* __Reprexes__ are still "uncharted territory". That's okay! Our Piazza board is a good space to practice, it is fine if you don't get it quite right the first few times. You'll have them down for when you need to use public help boards/GitHub issues in future!
+* Things you'd like more info on:
+  * Identifying __study design types__: will try to comment further in synch class this week.
+  * __Quiz 3, Question 4__. See [this Piazza post](https://piazza.com/class/kj98c115q7077t?cid=160_f1) for some discussion.
+
+---
+## Upcoming assessments  
+### Weekly
+
+* [Week 3 writing Reflect phase](https://q.utoronto.ca/courses/204826/assignments/506341) (due Feb 01 at 6:00 p.m. ET)
+* [Week 4 quiz](https://q.utoronto.ca/courses/204826/quizzes/138611) (due Wednesday, Feb 03 at 10:00 a.m. ET)
+* [Week 4 writing](https://q.utoronto.ca/courses/204826/assignments/506342)
+    - Create phase due Feb 04 at 6:00 p.m. ET
+    - Assess phase due Feb 05 at 6:00 p.m. ET
+    - Reflect phase due Feb 08 at 6:00 p.m. ET
+
+### Not weekly
+* [Polished writing 1](https://q.utoronto.ca/courses/204826/assignments/506351) (due .highlight[Friday, Feb 5 at 6:00 p.m. ET])
+* [Data exploration assessment](https://q.utoronto.ca/courses/204826/assignments/415115) (due Friday, Feb 12 at 6:00 p.m. ET)
+* Mixed assessment 1 after reading week. More information coming soon.
+
+---
+## Celebrating Black History Month
+
+.midi[
+#### Here in Arts &amp; Science:
+* You're invited to attend the Arts &amp; Science Decanal Lecture Celebrating Black History Month
+[The Coromantee War: Charting the Course of an Atlantic Slave Revolt by Prof. Vincent Brown](https://us02web.zoom.us/webinar/register/WN_kFf572T1Tyq0fDjBPTpVYg) February 3 at 7:00 p.m. ET. Register through the link.
+
+#### With TidyTuesday: 
+* Check out this [dataset on African American achievements](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-06-09/readme.md) and/or watch [this video from David Robinson where he works with the data](https://www.youtube.com/watch?v=-W-OopvhNPo). Might be some useful inspiration for those of you doing TidyTuesday related professional development tasks!
+
+#### With the American Statistical Association:
+* Last year AMSTAT did a bunch of profiles of statisticians. I really enjoyed reading [Charlotte Baidoo's profile](https://magazine.amstat.org/blog/2020/02/01/charlotte-baidoo/). She grew up in Canada and is now leading statistics teams at GSK Vaccines. 
+]
+
+---
+class: middle, center, inverse
+name: intro
+# Introduction to Week 4 topics
+
+.header[&lt;u&gt;[Go to topics list](#topics)&lt;/u&gt;]
+
+---
+class: middle
+
+This week's module recaps a few topics you should have encountered in previous courses: 
+* statistical independence and correlated data, 
+  * specifically, _from your understanding of the context/collection of data, can you identify whether observations are likely to be independent?_, and 
+* maximum likelihood/maximum likelihood estimates (MLEs).
+
+---
+### How deep are we going on likelihoods?
+
+We'll need the concept of maximum likelihood for most of the models we'll meet in this course. That said, __proofs about MLEs are not the focus of _this_ course.__
+
+* You should have encountered the concept of likelihood in _STA238: Probability, Statistics and Data Analysis II_ OR  _STA261: Probability and Statistics II_.  
+  * Having taken one of these is a pre-req for STA302, which is the pre-req for STA303.
+* For more depth on this important and useful topic (mathematically and/or computationally) consider taking:
+  * _STA355: Theory of Statistical Practice_, and/or 
+  * _STA410: Statistical Computation_, and/or 
+  * _STA422: Theory of Statistical Inference_ and/or 
+  * _STA452: Mathematical Statistics I_ + _STA453: Mathematical Statistics II_
+  
+.footnote[These recommendations are based only on the calendar entries for these courses, the [latest syllabi](https://www.statistics.utoronto.ca/resources/past-courses-outlines) of these courses are probably your best guide to what is covered.]  
+
+---
+class: middle, center, inverse
+name: corr-reading
+# Correlated data reading
+.header[&lt;u&gt;[Go to topics list](#topics)&lt;/u&gt;]
+
+---
+class: middle, center
+
+#### Reading: [Chapter 7  (§ 7.3 and 7.8) of Roback, P. &amp; Legler, J. Beyond Multiple Linear Regression. (2021). Retrieved from: https://bookdown.org/roback/bookdown-BeyondMLR/](https://bookdown.org/roback/bookdown-BeyondMLR/ch-corrdata.html#recognizing-correlation) 
+
+---
+class: middle, center, inverse
+name: vocab
+# Key vocabulary
+
+.header[&lt;u&gt;[Go to topics list](#topics)&lt;/u&gt;]
+
+---
+## Vocabulary
+
+* __Fixed effects__: These are non-random quantities. All the coefficients you were estimating in STA302 are examples of fixed effects as you were not treating `\(\beta_1\)` as a random variable, for example.
+* __Random effects__: These ARE random quantities. These model parameters are treated as random variables.
+* __Mixed effects model__: A model that includes both fixed and random effects as its parameters. These are also called hierarchical models and just mixed models. They are NOT the same as _mixed methods_, which is a 'mix' of _quantitative_ and _qualitative_ research methodology. 
+* __Nested/nesting design__: Observational units are grouped within grouping units. There may be multiple levels of grouping.
+* __Crossed effect design__: Every observational unit experiences every level of the treatment variable.
+
+---
+## Vocabulary (cont.)
+
+* __Observational units__: The person or thing on which your outcome of interest is measured. In an experiment we might also call this the 'experimental unit' or some might say 'statistical unit'. In [Chapter 7 of Beyond Multiple Linear Regression](https://bookdown.org/roback/bookdown-BeyondMLR/ch-corrdata.html#recognizing-correlation), these are referred to as 'level-one observational units'.
+  * E.g. In a survey of our class, each student is the observational unit. When I am preparing my final grades, each assessment for each student is my unit of observation. This links back to tidy data (week 2). We want each observational unit to have its own row and only that one row.
+* __Grouping units__: How your observational units are grouped together.  In [Chapter 7 of Beyond Multiple Linear Regression](https://bookdown.org/roback/bookdown-BeyondMLR/ch-corrdata.html#recognizing-correlation), these are referred to as 'level-two observational units', but you could have even more levels of grouping. Groups within groups, etc. 
+
+---
+class: middle, center, inverse
+name: statdew
+# Statdew Valley interactive
+
+.header[&lt;u&gt;[Go to topics list](#topics)&lt;/u&gt;]
+
+---
+class: middle, center
+
+## [Click this text to go to the interactive](https://jupyter.utoronto.ca/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fsta303-bolton%2Fsta303_activities&amp;urlpath=shiny%2Fsta303_activities%2Fweek_4%2F&amp;branch=main)
+
+&lt;img src="libs/images/w4/statdewvalley.png" width="45%" style="display: block; margin: auto;" /&gt;
+
+---
+class: middle, center, inverse
+name: mle
+# Maximum likelihood notes and reading
+
+.header[&lt;u&gt;[Go to topics list](#topics)&lt;/u&gt;]
+
+---
+## Recall
+
+$$L(\theta) = f(x | \theta) $$
+* Likelihood helps us understand how well our model fits our data. 
+* Maximizing the likelihood function find estimate the coefficient values for our model that make *the data we actually observed the most likely*. 
+  * That might feel a little backwards, as you could say the chance of observing out data is 100%, because we did...observe it...but hopefully the idea of picking the coefficient estimates for our model that make our data the most likely makes some sense. 
+
+---
+## Properties of maximum likelihood estimators
+
+For large sample sizes:
+* Bias goes to 0 (as sample size increases)
+* Approximately minimum variance 
+* Approximately normal distribution (usually)
+
+Another nice feature of MLEs are that they are '__invariant__' under transformation. This means that if `\(\hat\theta\)` is an MLE of `\(\theta\)`, and `\(g\)` is a 1-1 function, then `\(g(\hat\theta)\)` is an MLE of `\(g(\theta)\)`. This will come in handy from week 7 when we want to do some transformations of our coefficients estimates with link functions. 
+
+---
+## Reading
+
+As this should mostly be a recap of likelihood, this is a great article on which to practice your [previewing and skimming strategies from last week](https://q.utoronto.ca/courses/204826/pages/w3-reading-strategy-previewing-and-skimming?module_item_id=2252275).
+
+You may want to pay special attention to the likelihood ratio test.
+
+[Chapter 2](https://bookdown.org/roback/bookdown-BeyondMLR/ch-beyondmost.html) (§ 2.1–2.9) of Roback, P. &amp; Legler, J. Beyond Multiple Linear Regression. (2021). Retrieved from: https://bookdown.org/roback/bookdown-BeyondMLR/ (Links to an external site.) 
+
+---
+class: middle, center, inverse
+name: write
+# Polishing your writing
+
+.header[&lt;u&gt;[Go to topics list](#topics)&lt;/u&gt;]
+
+---
+## Advice for polishing your writing
+
+The U of T writing advice site has some great short articles with tips about common writing mistakes and tips for improving your writing. The full list from the ['Revising'](https://advice.writing.utoronto.ca/revising/) section is below. Choose one or two that seem relevant to you and read them. If you don't know where to start, go for the ['Hit Parade'](https://advice.writing.utoronto.ca/revising/hit-parade-of-errors/). 
+
+.midi[
+.pull-left[
+&lt;ul&gt;&lt;li class="page_item page-item-296"&gt;&lt;a href="https://advice.writing.utoronto.ca/revising/revising-and-editing/"&gt;Revising And Editing&lt;/a&gt;&lt;/li&gt;
+&lt;li class="page_item page-item-117"&gt;&lt;a href="https://advice.writing.utoronto.ca/revising/hit-parade-of-errors/"&gt;Hit Parade Of Errors In Grammar, Punctuation, and Style&lt;/a&gt;&lt;/li&gt;
+&lt;li class="page_item page-item-299"&gt;&lt;a href="https://advice.writing.utoronto.ca/revising/using-the-computer/"&gt;Using the Computer to Improve Your Writing&lt;/a&gt;&lt;/li&gt;
+&lt;li class="page_item page-item-302"&gt;&lt;a href="https://advice.writing.utoronto.ca/revising/wordiness/"&gt;Wordiness: Danger Signals and Ways to React&lt;/a&gt;&lt;/li&gt;
+&lt;li class="page_item page-item-306"&gt;&lt;a href="https://advice.writing.utoronto.ca/revising/unbiased-language/"&gt;Unbiased Language&lt;/a&gt;&lt;/li&gt;
+&lt;li class="page_item page-item-309"&gt;&lt;a href="https://advice.writing.utoronto.ca/revising/punctuation/"&gt;Punctuation&lt;/a&gt;&lt;/li&gt;
+&lt;li class="page_item page-item-312"&gt;&lt;a href="https://advice.writing.utoronto.ca/revising/comma-splices/"&gt;Fixing Comma Splices&lt;/a&gt;&lt;/li&gt;
+
+&lt;/ul&gt;]
+.pull-right[
+&lt;ul&gt;
+&lt;li class="page_item page-item-314"&gt;&lt;a href="https://advice.writing.utoronto.ca/revising/faulty-parallelism/"&gt;Faulty Parallelism&lt;/a&gt;&lt;/li&gt;
+&lt;li class="page_item page-item-318"&gt;&lt;a href="https://advice.writing.utoronto.ca/revising/passive-voice/"&gt;Passive Voice: When to Use It and When to Avoid It&lt;/a&gt;&lt;/li&gt;
+&lt;li class="page_item page-item-321"&gt;&lt;a href="https://advice.writing.utoronto.ca/revising/dangling-modifiers/"&gt;Fixing Dangling Modifiers&lt;/a&gt;&lt;/li&gt;
+&lt;li class="page_item page-item-324"&gt;&lt;a href="https://advice.writing.utoronto.ca/revising/spelling/"&gt;Some Tools and Rules to Improve Your Spelling&lt;/a&gt;&lt;/li&gt;
+&lt;li class="page_item page-item-327"&gt;&lt;a href="https://advice.writing.utoronto.ca/revising/plurals/"&gt;Plurals&lt;/a&gt;&lt;/li&gt;
+&lt;li class="page_item page-item-330"&gt;&lt;a href="https://advice.writing.utoronto.ca/revising/possessives/"&gt;Possessives&lt;/a&gt;&lt;/li&gt;
+&lt;li class="page_item page-item-333"&gt;&lt;a href="https://advice.writing.utoronto.ca/revising/subject-verb-agreement/"&gt;Subject-Verb Agreement&lt;/a&gt;&lt;/li&gt;
+&lt;li class="page_item page-item-74"&gt;&lt;a href="https://advice.writing.utoronto.ca/revising/sentence-fragments/"&gt;Sentence Fragments&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+]]
+
+---
+class: inverse, middle
+
+# See you Wednesday for class!
+
+.header[&lt;u&gt;[Go to topics list](#topics)&lt;/u&gt;]
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
