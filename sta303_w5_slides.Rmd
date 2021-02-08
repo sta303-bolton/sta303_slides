@@ -638,16 +638,18 @@ polite_data %>%
     geom_line(size=2) + geom_point(size=5, shape=21, fill="white") +
   theme_bw()
 
-ggsave("libs/images/w5/aside.png", width = 7, height = 5)
+ggsave("libs/images/w5/aside.png", width = 8, height = 4)
 ```
 
-
-```{r, echo=FALSE}
+.pull-left[
+```{r, echo=FALSE, out.width="910%"}
 #ggsave("libs/images/wk5/aside.png", width = 7, wight = 5)
-knitr::include_graphics("libs/images/w5/aside.png")
+ knitr::include_graphics("libs/images/w5/aside.png")
 ```
 
-.midi[This gives us a general idea of what is going on...but doesn't account for variability at all! Maybe these differences don't actually mean anything in the context of the variability of our data. That is why we want to take a modelling approach.]
+]
+
+.pull-right[This gives us a general idea of what is going on...but doesn't account for variability at all! Maybe these differences don't actually mean anything in the context of the variability of our data. That is why we want to take a modelling approach.]
 
 ---
 ### Random slopes for condition
