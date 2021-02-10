@@ -253,7 +253,8 @@ polite_data %>%
 
 .pull-right[ 
 
-```{r plot1, echo=FALSE, fig.height=6, fig.width=8, out.width=500}
+```{r, out.width="100%", echo=FALSE}
+knitr::include_graphics("libs/images/w5/explore.png")
 ```
 
 ]
