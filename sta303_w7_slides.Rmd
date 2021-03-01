@@ -78,7 +78,7 @@ name: admin
 ---
 ## Thank you for completing the end-of-week check-in!
 
-* Happy belated birthday to the friends and family members you told me you were celebrating with over reading week. Hope you had a great time playing board games, watching K-dramas and anime, playing piano, going for walks by yourself or with your do, sledding and going to hot springs (jealous!). But maybe don't tell me you're doing illegal things in a class survey... 
+* Happy belated birthday to the friends and family members you told me you were celebrating with over reading week. Hope you had a great time playing board games, watching K-dramas and anime, playing piano, going for walks by yourself or with your dog, sledding and going to hot springs (jealous!). But maybe don't tell me you're doing illegal things in a class survey...(Also, please don't do illegal things.)
 
 ```{r, eval=FALSE, echo=FALSE}
 survey <- readxl::read_excel("data/w7/survey_data.xlsx") %>% 
