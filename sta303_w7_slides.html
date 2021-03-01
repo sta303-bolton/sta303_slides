@@ -273,9 +273,9 @@ From this kind of table there are three types of proportions that we can calcula
   * General calculation: Row or columns sums over the grand total
 * __Conditional__
   * Conditional proportions hold one variable level as given, it is a bit like zooming in to only one row or one column.
-  * General calculation: Cell value of a row or column sum.
+  * General calculation: Cell value over a row or column sum.
 
-The `prop.table()` function will be very helpful to us!
+The `margin.table()` and `prop.table()` functions will be very helpful to us!
 ]
  
 ---
@@ -390,14 +390,14 @@ kable(round(prop.table(hosp_table, margin = 2), 3))
 ---
 ## Risk and odds
 
-"Risk" refers to the probability of occurrence of an event or outcome. Statistically, risk = chance of the outcome of interest/all possible outcomes. The term “odds” is often used instead of risk. "Odds" refers to the probability of occurrence of an event/probability of the event not occurring. At first glance, though these two concepts seem similar and interchangeable, there are important differences that dictate where the use of either of these is appropriate.
+"Risk" refers to the probability of the occurrence of an event or outcome. Statistically, risk = chance of the outcome of interest/all possible outcomes. The term “odds” is often used instead of risk. "Odds" refers to the probability of occurrence of an event/probability of the event not occurring. At first glance, though these two concepts seem similar and interchangeable, there are important differences that dictate where the use of either of these is appropriate.
 
 ~ From [Common pitfalls in statistical analysis: Odds versus risk](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4640017/)
 
 ---
 ## Hospitalization risk and odds
 
-Let's folks on folks 80 to 89.
+Let's focus on folks aged 80 to 89.
 
 ```
            Hospitalized Not hospitalized
@@ -466,9 +466,6 @@ Let's get flexible, flexible...
 - GLM does NOT assume a linear relationship between the dependent variable and the independent variables, but **it does assume a linear relationship between the transformed response (in terms of the link function) and the explanatory variables**; e.g., for binary logistic regression `\(logit(p) = \beta_0 + \beta_1X\)`.
 --
 &lt;br&gt;
-- Explanatory variables can be even the power terms or some other non-linear transformations of the original independent variables.  
---
-&lt;br&gt;
 - The homogeneity of variance does NOT need to be satisfied. 
 --
 &lt;br&gt;
@@ -483,8 +480,6 @@ Generalized linear models have three parts:
 3. **link function**, which tell us about the relationship between the systematic component (or linear predictor) and the mean of the response
 
 It is the **link function** that allows us to generalize the linear models for count, binomial and percent data. It ensures the linearity and constrains the predictions to be within a range of possible values.
-
----
 
 ---
 ## Generalized Linear Models
@@ -539,8 +534,8 @@ OLS is just a flavour of GLM when:
 &lt;br&gt;
 &lt;br&gt;
 `\begin{align*}
-Y_i \sim &amp; \text{Binomial}(N_i, \mu_i)\\
-\log\left(\frac{\mu_i}{1-\mu_i}\right) = &amp; X_i \beta
+Y_i \sim &amp; \text{Binomial}(N_i, p_i)\\
+\log\left(\frac{p_i}{1-p_i}\right) = &amp; X_i \beta
 \end{align*}`
 
 - `\(G\)` is a Binomial distribution
@@ -553,7 +548,7 @@ Y_i \sim &amp; \text{Binomial}(N_i, \mu_i)\\
 ![](sta303_w7_slides_files/figure-html/logit-1.png)&lt;!-- --&gt;
 
 - `\(X_i^T \beta\)` can be negative
-- `\(\mu_i\)` is between 0 and 1.
+- `\(p_i\)` is between 0 and 1.
 ]
 
 ---
@@ -909,7 +904,7 @@ round(100*(1-exp(par_table[2,'est']) ), 3)
 
 By the end of week 7, you should be able to:
 
-* Recognize a form of the probability density function for Bernoulli, binomial, negative binomial, Poisson, gamma and 
+* Recognize a form of the probability density function for Bernoulli, binomial, negative binomial, Poisson, gamma and beta.
 * Identify how changing values for a parameter affects the characteristics of the probability distribution.
 * Identify the mean and variance for each distribution.
 * Match the response for a study to a plausible random variable and provide reasons for ruling out other random variables.
@@ -918,7 +913,7 @@ By the end of week 7, you should be able to:
 * Calculate odds, risks, odds ratios (OR) and risk ratios (RR).
 * Understand why ORs and RRs are similar for rare outcomes.
 * State the assumptions of GLMs.
-* Interpret logistic regression output (more next week.)
+* Interpret logistic regression output (more next week!).
 
 ---
 class: middle, center, inverse
