@@ -84,12 +84,24 @@ name: admin
 * Revision version of the Team Up also available now.
 * Class rep meeting this Friday. 
 
+## Student reps
+
+.pull-left[
+### L0101
+__Hojung (Kane) Kim __
+hojung.kim@mail.utoronto.ca
+] .pull-right[
+### L0201
+__Varun Lodaya__
+varun.lodaya@mail.utoronto.ca
+]
+
 ---
 ## Reading week lite?
 
-I've been thinking a lot about what students have saying about about workload and well-being while learning online. Due to the change in Winter semester dates, there are 7 weeks after reading week and then pretty much straight on to the final assessment period. Even under normal circumstances, that's a pretty tough set-up. We also have a Daylight savings time change coming (2:00 a.m. ET on Sunday, March 14), which can be rough on folks.
+I've been thinking a lot about what students have been saying about about workload and well-being while learning online. Due to the change in Winter semester dates, there are 7 weeks after reading week and then pretty much straight on to the final assessment period. Even under normal circumstances, that's a pretty tough set-up. We also have a Daylight savings time change coming (2:00 a.m. ET on Sunday, March 14), which can be rough on folks.
 
-So, all of this considered, I've decided to do something a little different with week 9, that I am calling 'reading week lite'. I'm hoping it will give you give all a chance to catch your breath, and perhaps provide some time to jump-start your project work, get caught up on your professional development task and catch up on some self-care. To help with this, I have invited guest speakers to each class that will be running workshops health and well-being.
+So, all of this considered, I've decided to do something a little different with week 9, that I am calling 'reading week lite'. I'm hoping it will give you give you all a chance to catch your breath, and perhaps provide some time to jump-start your project work, get caught up on your professional development task or catch up on some self-care. To help with this, I have invited guest speakers to each class that will be running workshops on health and well-being topics.
 
 ---
 ## 'Reading week lite'
@@ -98,25 +110,25 @@ So, all of this considered, I've decided to do something a little different with
 ### There WILL (still) be:
   - a __quiz__ (revision)
   - a weekly __writing__ task
-  - synchronous __classes__ on Wednesday with guest speakers
+  - synchronous __classes__ on Wednesday with __guest speakers__ on wellness
 ]
 
 .pull-right[
 ### There WON'T be:
-  - a new __module__ released
+  - a new __module__ released/any new content
   - a __Team Up!__ activity
 ]
 
 ### Bonus opportunity
   - Instead of a Team Up! activity you can earn a __full bonus point__ for _attending_ a class session with our guest speakers (i.e. up to 2 points for both live sessions).
-  - For those who can't/don't wish to attend synchronously, you can earn a 1/2 bonus for viewing the recording of each session and submitting a short survey.
+  - For those who can't/don't wish to attend synchronously, you can earn a half bonus for viewing the recording of each session and submitting a short survey.
   - You can also mix and match, attend one live and one asynchronously for 1.5 points (but can't do both asynch and synch for the same talk).
 
 ---
 ## Upcoming assessments: weekly 
 
-* [Week 8 quiz]() (due Wednesday, Mar 10 at 10:00 a.m. ET)
-* [Week 8 writing]()
+* [Week 8 quiz](https://q.utoronto.ca/courses/204826/quizzes/138615) (due Wednesday, Mar 10 at 10:00 a.m. ET)
+* [Week 8 writing](https://q.utoronto.ca/courses/204826/assignments/506345)
     - Create phase due Mar 11 at 6:00 p.m. ET
     - Assess phase due Mar 12 at 6:00 p.m. ET
     - Reflect phase due Mar 15 at 6:00 p.m. ET
@@ -133,13 +145,19 @@ More information about how to do this, and the project in general, __coming soon
 ### [Professional development evidence and reflection](https://q.utoronto.ca/courses/204826/assignments/506360) (due Mar 26 at 6:00 p.m. ET)
 
 ---
+class: center, middle
+## Final project
+
+.large[More information in Wednesday class this week!]
+
+---
 ## Grading updates
 
 Remember that if you wish to request a regrade for any of the released graded assignments (polished 1, proposal, __your request must be made by Tuesday, Mar 09 at 11:00 a.m. ET to be considered__.
 
-Grading is still underway for the data exploration assessment.
+Grading is still underway for the __data exploration__ assessment. (Sorry, this one seems like it is going to take a while.)
 
-Grading for the mixed assessment is almost done.
+Grading for the __mixed assessment__ is almost done.
 
 ---
 class: middle, center, inverse
@@ -160,31 +178,19 @@ __Optional reading:__ Wood, S.N. Generalized Additive Models: An Introduction wi
 ---
 ## Recall
 
-For a generalized model, we've said that  $Y_i \sim  \text{some distribution}(\mu_i)$  
-$g(\mu_i) =  X_i^T\beta$
-]]
+For a generalized model, we've said that:
 
-.right-plot[
-- $G$ is the distribution of the response variable
-- $\mu_i$ is a location parameter for observation $i$
-- $\theta$ are additional parameters for the density of $G$
-- $g$ is a link function
-- $X_i$ are covariates for observation $i$
-- $\beta$ is a vector of regression coefficients
-]
+$$Y_i \sim  \text{some distribution}(\mu_i);\ g(\mu_i) =  X_i^T\beta$$
+### Exponential family forms
 
-
----
-## Exponential family forms
-
-The first model we met in the Generalized Linear Model family was logistic regression. But! there is a whole broader extended 'family' of these models that have a unifying trait:
+.midi[The first model we met in the Generalized Linear Model family was logistic regression. But! there is a whole broader extended 'family' of these models that have a unifying trait:
 
 .center[__their probability distribution function can be expressed in exponential form:__
 ]
 
 .large[$$f(y;\theta)=e^{[ \{y\theta-B(\theta)\}/A(\phi)+C(y, \phi)]}$$]
 
-where $\phi$ is an arbitrary 'scale' parameter and $\theta$ is know as the _canonical parameter_ of the distribution. Functions A, B and C are arbitrary functions.  You'll see lots of different letters and symbols used for these functions, I'm not sure which set to call the 'most' popular versions.
+where $\phi$ is an arbitrary 'scale' parameter and $\theta$ is know as the _canonical parameter_ of the distribution. Functions A, B and C are arbitrary functions.  You'll see lots of different letters and symbols used for these functions, I'm not sure which set to call the 'most' popular versions.]
 
 ---
 ## Exponential family forms (continued)
@@ -354,6 +360,22 @@ This case study is drawn from the content in [Chapter 6](https://bookdown.org/ro
 
 It differs from the [__Challenger__ example last week](https://sta303-bolton.github.io/sta303_slides/sta303_w7_slides#38) in that the response is binary (0/1) instead of a number of successes out of a given number of trials. This is a really common application of these methods.
 
+---
+## Access the code for the case studies
+
+.large[
+```{r, eval=FALSE}
+devtools::install_github("sta303-bolton/sta303w8")
+# If it prompts you to update packages, 
+# just click 'Enter' or 'Return' or input 3
+```
+]
+
+Like last week, you can access R Markdown templates with the code by installing this package and then opening a new R Markdown document from template. Go to File -> New File -> R Markdown and choose 'From template' and select the case study you want to work through the code on. 
+
+__YOU MAY NEED TO RESTART THE R SESSION FOR THE TEMPLATE TO BE AVAILBLE. Go to Session -> Restart R__
+
+If you have trouble accessing the package, the contents of the .Rmds are available [here](https://raw.githubusercontent.com/sta303-bolton/sta303w8/main/inst/rmarkdown/templates/weight-loss/skeleton/skeleton.Rmd).
 
 ---
 class: middle, center, inverse
@@ -475,6 +497,8 @@ Like last week, you can access R Markdown templates with the code by installing 
 
 __YOU MAY NEED TO RESTART THE R SESSION FOR THE TEMPLATE TO BE AVAILBLE. Go to Session -> Restart R__
 
+If you have trouble accessing the package, the contents of the .Rmds are available here: (1) [Household size in the Philippines](https://raw.githubusercontent.com/sta303-bolton/sta303w8/main/inst/rmarkdown/templates/philippines/skeleton/skeleton.Rmd) and (2) [Campus crime](https://raw.githubusercontent.com/sta303-bolton/sta303w8/main/inst/rmarkdown/templates/campus-crime/skeleton/skeleton.Rmd)
+
 ---
 class: middle, center, inverse
 name: writing
@@ -489,7 +513,7 @@ In Week 5, you wrote the results and conclusion for an abstract for the lung fun
 
 .footnote[[Chapter 4.10](https://bookdown.org/roback/bookdown-BeyondMLR/ch-poissonreg.html#cs:drinking) of Roback, P. & Legler, J. Beyond Multiple Linear Regression. (2021).]
 
-All relevant code is available in a template called 'Case study weekend drinking' from the `sta303w8` package.
+All relevant code is available in a template called 'Case study weekend drinking' from the `sta303w8` package ([contents available here, also](https://raw.githubusercontent.com/sta303-bolton/sta303w8/main/inst/rmarkdown/templates/weekend-drinking/skeleton/skeleton.Rmd))
 
 Your abstract should be organised into the following sections:
 * __Background & Aim__	(_What do we know about the topic? What is this study about?_),
@@ -507,7 +531,6 @@ class: inverse, middle
 
 ```{r eval = FALSE, echo = FALSE}
 
-pagedown::chrome_print("sta303_w7_slides.html", wait = 20)
+pagedown::chrome_print("sta303_w8_slides.html", wait = 20)
 
 ```
-
