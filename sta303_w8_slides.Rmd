@@ -274,7 +274,7 @@ It is nice to be able to make comments about GLMs in a similar way we are used t
 
 The __deviance__ can take on this role for us. (In our R output it is called the _Residual deviance_.)
 
-$$D = 2 \{ l(\hat{\beta}_{max}) - l(\hat{\beta)} \}\phi $$
+$$D = 2 [ l(\hat{\beta}_{max}) - l(\hat{\beta)} ]\phi $$
 
 $l(\hat{\beta}_{max})$ is the maximum likelihood of the saturated model (super overfitting, one $\beta$ per observation) and is the highest log likelihood we could possibly get with this data.
 
