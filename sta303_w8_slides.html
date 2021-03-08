@@ -393,7 +393,7 @@ Canonical link: log]
 
 .midi[
 * We interpret __coefficients__ as __risk ratios__
-  * Similar to logistic regression, we are interpreting the coefficients on the multiplicative scale after transforming with inverse of our link function.
+  * Similar to logistic regression, we are interpreting the coefficients on the multiplicative scale after transforming with the inverse of our link function.
 * __Offsets__
   * Accounts for different denominators in rates, while allowing for counts to still be the response.
 * Note: We're using 'log' here to mean the 'natural log', i.e., base _e_. `log()` in R is also base e.
@@ -402,7 +402,7 @@ Canonical link: log]
 ---
 ## Key concepts for Poisson regression (cont.)
 * __Overdispersion__
-  * A key assumption of Poission regression is that the mean and variance of our response are equal. If the variance is greater than the mean we have overdispersion. 
+  * A key assumption of Poisson regression is that the mean and variance of our response are equal. If the variance is greater than the mean we have overdispersion. 
   * If we ignore overdispersion, our standard errors might be falsely small, meaning we'll probably have falsely small p-values, which might lead us to choose an more complicated model 
 * __Negative binomial regression__
   * This is another approach to dealing with overdispersion. As we've seen negative binomial isn't part of the one parameter exponential family, it requires a second parameter, but this gives us more flexibility AND assumes an explicit likelihood function (unlike quasipoisson).
