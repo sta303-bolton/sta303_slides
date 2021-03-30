@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>STA303H1S/1002H Week 11</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Prof. Liza Bolton" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/shareon/shareon.min.css" rel="stylesheet" />
+    <script src="libs/shareon/shareon.min.js"></script>
+    <link href="libs/xaringanExtra-shareagain/shareagain.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-shareagain/shareagain.js"></script>
+    <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"<i class=\"fa fa-clipboard\"><\/i>","success":"<i class=\"fa fa-check\" style=\"color: #90BE6D\"><\/i>","error":"<i class=\"fa fa-times-circle\" style=\"color: #F94144\"><\/i>"})</script>
+    <link rel="stylesheet" href="slides_303.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# STA303H1S/1002H Week 11
+## Wham! GAM! Thank you, mam! Generalised additive models
+### Prof. Liza Bolton
+### Mar 29, 2021
+
+---
+
+
+
+
+name: topics
+
+## Topics
+You can click the following links to navigate through the slides (in the HTML version).
+
+* [Admin notes](#admin)
+* [Introduction to Generalized Additive Models](#gams)
+* [Case study: Cherry tree](#cherry)
+* [Case study: Portugese larks](#larks)
+* [Further comments on GAMs](#final)
+
+---
+class: middle, center, inverse
+name: admin
+# Admin notes
+
+.header[&lt;u&gt;[Go to topics list](#topics)&lt;/u&gt;]
+
+---
+## Weekly check-in (week 10)
+
+Largely we're looking pretty good! A few clarifications about GLMs and case-control studies that I'll try to hit on in class this week.
+
+## Other
+
+At the time of posting these slides, Amin and I were still finishing up the rubric for the professional development task, but will be aiming to post it Tuesday. As said before, the main things you need to know were described in last Monday's announcemnt.
+
+---
+## Upcoming assessments: weekly 
+
+* [LAST weekly quiz](https://q.utoronto.ca/courses/204826/quizzes/138615) (.highlight[due Friday, Apr 2 at 6:00 p.m. ET])
+* [LAST weekly writing](https://q.utoronto.ca/courses/204826/assignments/506345)
+    - Create phase due Apr 1 at 6:00 p.m. ET
+    - Assess phase due Apr 2 at 6:00 p.m. ET
+    - Reflect phase due Apr 5 at 6:00 p.m. ET
+---
+## Upcoming assessments: non-weekly 
+.midi[
+
+### [Professional development evidence and reflection](https://q.utoronto.ca/courses/204826/assignments/506360) (due Apr 2 at 6:00 p.m. ET)
+
+### [Polished writing 3](https://q.utoronto.ca/courses/204826/assignments/506354) (due Apr 9 at 6:00 p.m. ET)
+
+[Polished writing 3](https://q.utoronto.ca/courses/204826/assignments/506354) must be a response to one of the prompts from Week 8, 9, 10 or 11. You do not have to have completed the activity for that week to be able to submit your response as your polished writing, but the intention is that you are submitting a piece improved based on feedback from your peers.
+]
+
+### [Final project](https://q.utoronto.ca/courses/204826/pages/project-overview)
+Checklist for this week:
+* Get the data for the project: see week 11 class recording
+* Draft your research questions
+* Explore the data (summaries, basic visualizations)
+
+---
+class: middle, center, inverse
+name: gams
+# Introduction to Generalized Additive Models
+
+.header[&lt;u&gt;[Go to topics list](#topics)&lt;/u&gt;]
+
+---
+
+## What are we doing this week?
+
+.large[
+- Let's get even more flexible!
+    - What are GAMs?
+    - Flexibly modelleing non-linear behaviour
+]
+
+---
+## Big picture
+
+&lt;img src="libs/images/w11/continuum.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+---
+## A one tweet GAM lesson
+
+&lt;img src="libs/images/w11/tweet.png" width=700&gt;
+
+[https://twitter.com/ucfagls/status/842444686513991680?ref_src=twsrc%5Etfw](https://twitter.com/ucfagls/status/842444686513991680?ref_src=twsrc%5Etfw)
+
+---
+# Non-parametric modelling
+
+A.K.A
+
+- Penalized likelihood
+- Smoothing
+- Fitting wiggly lines through points
+- Semi-parametric models
+- Splines
+
+---
+## Some fake data
+
+It is very wiggly.
+
+![](sta303_w11_slides_files/figure-html/unnamed-chunk-2-1.png)&lt;!-- --&gt;
+
+---
+## Linear model?
+
+
+```r
+p + geom_smooth(method="lm")
+```
+
+![](sta303_w11_slides_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+
+Well, that seems bad...
+
+---
+### Wouldn't something like this be much nicer?
+
+![](sta303_w11_slides_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+
+That's the goal for this week!
+
+---
+
+## How do we get the wiggles?
+
+.center[
+&lt;img src="libs/images/w11/wiggles.jpeg" width =800&gt;
+]
+
+---
+## How do we get the wiggles?
+
+.large[**Answer: Splines!**]
+
+If you've looked at interference of waves in physics, you'll love this. If you haven't....you'll also love this!
+
+.right-column[&lt;img src = "libs/images/w11/pr.jpeg" width = 300&gt;]
+GAMs are both *smooth* and *flexible* thanks to actually being made up of mutliple not as flexible functions. _Imagine the Power Rangers robot teaching you a yoga class._
+
+- Each smooth is the sum of a number of **basis functions**
+- Each basis function is multiplied by a coefficient
+- Each of those coefficients is a parameter of our model
+
+---
+## Splines
+
+* Splines are *functions* composed of simpler functions
+* Our simpler functions are *basis functions* &amp; the set of basis functions is a *basis*
+* When we model using splines, each basis function `\(b_k\)` has a coefficient `\(\beta_k\)`
+* The resulting spline is a the sum of these weighted basis functions, evaluated at the values of `\(x\)`
+
+`$$s(x) = \sum_{k = 1}^K \beta_k b_k(x)$$`
+
+---
+## Picturing basis functions
+
+.midi[
+- **Plot a** shows the basis functions of a GAM where all the coefficients are the same.  
+- **Plot b** shows the same basis functions *after* model-fitting, where each has a coefficient fit to the data. 
+- Basis functions add up to create the overall smooth shape. 
+
+Describing this one, nonlinear relationship (one response and one explanatory variable) requires several parameters, plus an intercept. ]
+
+.center[
+&lt;img src="libs/images/w11/basis-functions-nr.png" width=700&gt;
+]
+
+.footnote[Image created by [Noam Ross]( https://github.com/noamross/gams-in-r-course/blob/master/images/basis-functions-1.png).]
+
+---
+## Wiggle, wiggle, wiggle
+
+&lt;img src="https://github.com/gavinsimpson/intro-gam-webinar-2020/blob/master/resources/basis-fun-anim.gif?raw=true" width="80%" style="display: block; margin: auto;" /&gt;
+
+.footnote[GIF by [Gavin Simpson](https://github.com/gavinsimpson)]
+
+---
+### Taking a peak at our coefficients
+
+
+```r
+library(mgcv) # you will need to install this
+gam_mod &lt;- gam(y ~ s(x, k=7), data=my_data, method="REML")
+coef(gam_mod)
+```
+
+```
+## (Intercept)      s(x).1      s(x).2      s(x).3      s(x).4      s(x).5 
+##    3.074352  -10.512816   14.800850   -5.780337   -3.959907   18.597941 
+##      s(x).6 
+##   10.047384
+```
+
+This is just some meaningless fake data, we'll work through a Case Study more fully.
+
+---
+### How many basis functions do we want?
+
+
+&lt;img src="libs/images/w11/diffbasis-nr.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+.footnote[Image created by [Noam Ross]( https://github.com/noamross/gams-in-r-course/blob/master/images/diffbasis-1.png).]
+
+
+---
+### Smoothing
+
+&lt;img src="libs/images/w11/diffsmooth-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+.footnote[Image created by [Noam Ross]( https://github.com/noamross/gams-in-r-course/blob/master/images/diffsmooth-1.png).]
+
+---
+.pull-left[### Smoothing
+
+You can think of our fit as being:
+
+$$\text{penalized log lik} = $$
+`$$\log(\text{Likelihood}) - \lambda \cdot \text{Wiggliness}$$`
+
+where `\(\lambda\)` is a smoothing parameter.
+
+We can set lambda with the `sp` (smoothing parameter) option in `gam()` BUT it is recommended that we let R find the best one for us using restricted maximum likelihood ("REML").]
+
+.pull-right[
+.large[
+
+```r
+# Sets parameter for the whole model
+gam_mod &lt;- gam(y ~ s(x), data=my_data, sp=0.1) 
+
+# Set the parameter for one specific term
+gam_mod &lt;- gam(y ~ s(x1, sp=0.1) + s(x2), data=my_data) 
+
+# Let R do it for you - the recommended way
+gam_mod &lt;- gam(y ~ s(x), data=my_data, method = "REML")
+```
+]]
+
+---
+## Choices to make: Wiggliness
+
+There are LOTS of ways to pick your wiggle: AIC, generalized crossvalidation (GCV, part of the name of `mgcv` and the default for that package), ML and REML. 
+
+## Choices to make: Basis complexity 
+
+We can set a maximum wiggliness by setting a 'size', k, that indicates a maximum number of small functions that could be used to build the model. If we set it bigger than the data, we'll get an error, and if we set it much bigger than needed, it is computationally costly. 
+
+Our effective degrees of freedom (edf) will always be less than k. We can check if we've been sensible in our choice of _k_ with `gam.check()`.
+
+---
+
+---
+## Basis expansions
+
+In the polynomial models we used a polynomial basis expansion of `\(\boldsymbol{x}\)`
+
+* `\(\boldsymbol{x}^0 = \boldsymbol{1}\)` &amp;mdash; the model constant term
+* `\(\boldsymbol{x}^1 = \boldsymbol{x}\)` &amp;mdash; linear term
+* `\(\boldsymbol{x}^2\)`
+* `\(\boldsymbol{x}^3\)`
+* &amp;hellip;
+
+So! If the __effective degrees of freedom__ we need for a term is approximately 1, then we're really just smoothing it down to a linear term, the way a covariate would usually enter a model as a fixed effect in our previous moodels. We may choose to just put it in the model as such, so that we can interpret the cofficient it receives. 
+
+
+---
+## Generalized additive (mixed) models
+
+.pull-left[
+
+We can combine everything we've done in this course so far into generalized additive models (including adding random effects).
+
+`\begin{align*}
+Y_i \sim &amp; G(\mu_i, \theta)\\
+g(\mu_i) = &amp; X_i \beta + Z_iU + f(W_i)
+\end{align*}`
+
+.midi[
+- `\(Y_i\)` are responses
+- `\(G\)` is the response distribution
+- `\(X_i\)`, `\(Z_i\)` and `\(W_i\)` are covariates
+- `\(U\)` are our random effects
+- `\(f(w)\)` is some sort of wiggly line 
+- If we put no restrictions or assumptions on `\(f\)`, the estimate `\(\hat f(w)\)` will interpolate the data perfectly (which isn't very interesting)
+]
+]
+
+__Random effects__
+
+.midi[When fitted with REML or ML, _smooths_ can be viewed as just fancy _random effects_. AND, excitingly, random effects can be viewed as smooths!
+
+If your random effects are fairly simple, you can fit those in `mgcs::gam()` without needing the more complex GAMM functions, like `gamm4::gamm4()`
+
+These two models are equivalent:]
+
+
+```r
+m_nlme &lt;- lme4::lmer(travel ~ 1 + (1 | Rail), data = Rail, REML = TRUE) 
+m_gam  &lt;- gam(travel ~ s(Rail, bs = "re"), data = Rail, method = "REML")
+```
+
+---
+## Random effects
+
+The random effect basis, `bs = 're'`, is _not_ as computationally efficient as *lme4* if we have complex random effects terms or even if we just have random effects with many levels (which isn't really that unusual with random effects).
+
+Instead we could use `gamm()` or `gamm4::gamm4()`:
+
+* `gamm()` fits using `lme()`
+* `gamm4::gamm4()` fits using `lmer()` or `glmer()`
+
+I.e., you're wanting a response with a conditional distribution that isn't _normal_, use `gamm4::gamm4()`
+
+---
+class: middle, center, inverse
+name: cherry
+# Case study: Cherry tree
+
+.header[&lt;u&gt;[Go to topics list](#topics)&lt;/u&gt;]
+
+---
+class: middle, center
+
+See the .Rmd in this week's project:  
+`devtools::install_github("sta303-bolton/sta303w11")`
+
+---
+class: middle, center, inverse
+name: larks
+# Case study: Portugese larks
+
+.header[&lt;u&gt;[Go to topics list](#topics)&lt;/u&gt;]
+
+---
+class: middle, center
+
+See the .Rmd in this week's project:  
+`devtools::install_github("sta303-bolton/sta303w11")`
+
+---
+class: middle, center, inverse
+name: final
+# Further comments on GAMs
+
+.header[&lt;u&gt;[Go to topics list](#topics)&lt;/u&gt;]
+
+---
+## GAMs are models too
+
+How accurate your predictions are depends on how good the model is, as always. (Credit: Erik Peterson &amp; Gavin Newsome)
+
+![](sta303_w11_slides_files/figure-html/misspecify-1.png)&lt;!-- --&gt;
+
+---
+## Select and method
+.midi[
+.pull-left[
+#### Variable selection
+Unmodified smoothness selection by GCV, AIC, REML etc. will not usually remove a smooth from a model (not set edf to 0). Most smoothing penalties view the null-space of a smooth as 'completely smooth' and so further penalization does not change it.
+
+With `select = TRUE` we add an extra penalty to the null-space part (the part of the spline that is perfectly smooth).
+
+If you don't have this, smoothness selection can usually only penalise a smooth back to a linear function]
+
+.pull-right[ (because the penalty that's doing smoothness selection only works on the non-smooth (the wiggly) parts of the basis). To perform selection we need to be able to penalise the null space (the smooth parts of the basis) as well.
+
+#### Smoothness selection
+The `method` argument to gam selects the smoothness selection criterion. For many practioners, 'ML' or 'REML' are their default choice, though not the default in `gam()`. Using a likelihood based approach essentially treats the smooth components as random effects.
+]]
+
+---
+## More conditional distributions than you can shake a squiggly line at
+
+A GAM is just a fancy GLM! So we can fit any of the models we've learned (Poisson, Logistic, Gamma as we saw today in the cherry example). The creators of the `mgcv` package (Simon Wood &amp; colleagues (2016)) have extended the methods to some non-exponential family distributions that are also very helpful, of which we've seen Negative Binomial and Zero-inflated Poisson.
+
+.midi[
+.pull-left[
+* `binomial()`
+* `poisson()`
+* `Gamma()`
+* `inverse.gaussian()`
+* `nb()`
+* `tw()`
+* `mvn()`
+* `multinom()`
+]
+.pull-right[
+* `betar()`
+* `scat()`
+* `gaulss()`
+* `ziplss()`
+* `twlss()`
+* `cox.ph()`
+* `gamals()`
+* `ocat()`
+]]
+
+
+---
+## A symphony of smoothers
+
+The type of smoother is controlled by the `bs` argument (think *b*asi*s*)
+
+The default is a low-rank thin plate spline `bs = 'tp'`
+
+Many others available (thanks Gavin Simpson for making this list):
+
+.pull-left[
+
+* Cubic splines `bs = 'cr'`
+* P splines `bs = 'ps'`
+* Cyclic splines `bs = 'cc'` or `bs = 'cp'`
+* Adaptive splines `bs = 'ad'`
+* Random effect `bs = 're'`
+* Factor smooths `bs = 'fs'`
+]
+.pull-right[
+* Duchon splines `bs = 'ds'`
+* Spline on the sphere `bs = 'sos'`
+* MRFs `bs = 'mrf'`
+* Soap-film smooth `bs = 'so'`
+* Gaussian process `bs = 'gp'`
+]
+
+---
+
+## How do we talk about GAMs?
+
+Presenting results from GAMs is similar to presenting results from other models we've learned except that for smoothed terms we have no single coefficient you can make inference from (i.e. negative, positive, effect size etc.). 
+
+For smoothed variables, we rely a lot on visual methods (e.g. `plot(gam_model)`) for describing our results and we can also make inference from predicted values.
+
+For parametric variables, we can make inferences like we normally would. 
+
+GAMs are especially useful for accounting for a non-linear phenomonon that may not be the main thing you are interested in. This is similar to how we have already used random effects to account for correlation in our data that is not the main thing of interest but shouldn't be ignored.
+
+---
+
+## Conclusions
+
+- GAMs are GLMMs
+- Anything you can do with LMs/LMMs/GLMs/GLMMs you can do with GAMs  
+    - All the different ways we learned to deal with response functions for GLM and GLMM apply here too
+- use ML to estimate parameters
+- use a lot of knots
+
+### Other GAMs things we won't get to look at in detail in this course
+
+- changing basis functions (see a list of options by running `?smooth.terms`)
+
+---
+class: inverse, middle
+
+# See you Wednesday for our last class!
+
+.header[&lt;u&gt;[Go to topics list](#topics)&lt;/u&gt;]
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
