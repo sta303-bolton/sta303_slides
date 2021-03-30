@@ -278,8 +278,6 @@ We can set a maximum wiggliness by setting a 'size', k, that indicates a maximum
 Our effective degrees of freedom (edf) will always be less than k. We can check if we've been sensible in our choice of _k_ with `gam.check()`.
 
 ---
-
----
 ## Basis expansions
 
 In the polynomial models we used a polynomial basis expansion of `\(\boldsymbol{x}\)`
@@ -319,7 +317,7 @@ __Random effects__
 
 .midi[When fitted with REML or ML, _smooths_ can be viewed as just fancy _random effects_. AND, excitingly, random effects can be viewed as smooths!
 
-If your random effects are fairly simple, you can fit those in `mgcs::gam()` without needing the more complex GAMM functions, like `gamm4::gamm4()`
+If your random effects are fairly simple, you can fit those in `mgcv::gam()` without needing the more complex GAMM functions, like `gamm4::gamm4()`
 
 These two models are equivalent:]
 
