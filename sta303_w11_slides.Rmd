@@ -1,6 +1,6 @@
 ---
 title: "STA303H1S/1002H Week 11"
-subtitle: "Wham! GAM! Thank you, mam! Generalised additive models"
+subtitle: "Wham! GAM! Thank you, mam! Generalized additive models"
 author: "Prof. Liza Bolton"
 date: "Mar 29, 2021"
 output:
@@ -64,7 +64,7 @@ You can click the following links to navigate through the slides (in the HTML ve
 * [Admin notes](#admin)
 * [Introduction to Generalized Additive Models](#gams)
 * [Case study: Cherry tree](#cherry)
-* [Case study: Portugese larks](#larks)
+* [Case study: Portuguese larks](#larks)
 * [Further comments on GAMs](#final)
 
 ---
@@ -81,7 +81,7 @@ Largely we're looking pretty good! A few clarifications about GLMs and case-cont
 
 ## Other
 
-At the time of posting these slides, Amin and I were still finishing up the rubric for the professional development task, but will be aiming to post it Tuesday. As said before, the main things you need to know were described in last Monday's announcemnt.
+At the time of posting these slides, Amin and I were still finishing up the rubric for the professional development task, but will be aiming to post it Tuesday. As said before, the main things you need to know were described in last Monday's announcement.
 
 ---
 ## Upcoming assessments: weekly 
@@ -122,7 +122,7 @@ name: gams
 .large[
 - Let's get even more flexible!
     - What are GAMs?
-    - Flexibly modelleing non-linear behaviour
+    - Flexibly modelling non-linear behaviour
 ]
 
 ---
@@ -210,7 +210,7 @@ That's the goal for this week!
 If you've looked at interference of waves in physics, you'll love this. If you haven't....you'll also love this!
 
 .right-column[<img src = "libs/images/w11/pr.jpeg" width = 300>]
-GAMs are both *smooth* and *flexible* thanks to actually being made up of mutliple not as flexible functions. _Imagine the Power Rangers robot teaching you a yoga class._
+GAMs are both *smooth* and *flexible* thanks to actually being made up of multiple not as flexible functions. _Imagine the Power Rangers robot teaching you a yoga class._
 
 - Each smooth is the sum of a number of **basis functions**
 - Each basis function is multiplied by a coefficient
@@ -312,7 +312,7 @@ gam_mod <- gam(y ~ s(x), data=my_data, method = "REML")
 ---
 ## Choices to make: Wiggliness
 
-There are LOTS of ways to pick your wiggle: AIC, generalized crossvalidation (GCV, part of the name of `mgcv` and the default for that package), ML and REML. 
+There are LOTS of ways to pick your wiggle: AIC, generalized cross-validation (GCV, part of the name of `mgcv` and the default for that package), ML and REML. 
 
 ## Choices to make: Basis complexity 
 
@@ -333,7 +333,7 @@ In the polynomial models we used a polynomial basis expansion of $\boldsymbol{x}
 * $\boldsymbol{x}^3$
 * &hellip;
 
-So! If the __effective degrees of freedom__ we need for a term is approximately 1, then we're really just smoothing it down to a linear term, the way a covariate would usually enter a model as a fixed effect in our previous moodels. We may choose to just put it in the model as such, so that we can interpret the cofficient it receives. 
+So! If the __effective degrees of freedom__ we need for a term is approximately 1, then we're really just smoothing it down to a linear term, the way a covariate would usually enter a model as a fixed effect in our previous models. We may choose to just put it in the model as such, so that we can interpret the coefficient it receives. 
 
 
 ---
@@ -399,7 +399,7 @@ See the .Rmd in this week's project:
 ---
 class: middle, center, inverse
 name: larks
-# Case study: Portugese larks
+# Case study: Portuguese larks
 
 .header[<u>[Go to topics list](#topics)</u>]
 
@@ -419,7 +419,7 @@ name: final
 ---
 ## GAMs are models too
 
-How accurate your predictions are depends on how good the model is, as always. (Credit: Erik Peterson & Gavin Newsome)
+How accurate your predictions are depends on how good the model is, as always. (Credit: Eric Pedersen & Gavin Simpson)
 
 ```{r misspecify, echo = FALSE, fig.height=2.3, fig.width=6}
 set.seed(15)
@@ -469,12 +469,12 @@ Unmodified smoothness selection by GCV, AIC, REML etc. will not usually remove a
 
 With `select = TRUE` we add an extra penalty to the null-space part (the part of the spline that is perfectly smooth).
 
-If you don't have this, smoothness selection can usually only penalise a smooth back to a linear function]
+If you don't have this, smoothness selection can usually only penalize a smooth back to a linear function]
 
-.pull-right[ (because the penalty that's doing smoothness selection only works on the non-smooth (the wiggly) parts of the basis). To perform selection we need to be able to penalise the null space (the smooth parts of the basis) as well.
+.pull-right[ (because the penalty that's doing smoothness selection only works on the non-smooth (the wiggly) parts of the basis). To perform selection we need to be able to penalize the null space (the smooth parts of the basis) as well.
 
 #### Smoothness selection
-The `method` argument to gam selects the smoothness selection criterion. For many practioners, 'ML' or 'REML' are their default choice, though not the default in `gam()`. Using a likelihood based approach essentially treats the smooth components as random effects.
+The `method` argument to gam selects the smoothness selection criterion. For many practitioners, 'ML' or 'REML' are their default choice, though not the default in `gam()`. Using a likelihood based approach essentially treats the smooth components as random effects.
 ]]
 
 ---
@@ -541,7 +541,7 @@ For smoothed variables, we rely a lot on visual methods (e.g. `plot(gam_model)`)
 
 For parametric variables, we can make inferences like we normally would. 
 
-GAMs are especially useful for accounting for a non-linear phenomonon that may not be the main thing you are interested in. This is similar to how we have already used random effects to account for correlation in our data that is not the main thing of interest but shouldn't be ignored.
+GAMs are especially useful for accounting for a non-linear phenomenon that may not be the main thing you are interested in. This is similar to how we have already used random effects to account for correlation in our data that is not the main thing of interest but shouldn't be ignored.
 
 ---
 
