@@ -173,14 +173,26 @@ my_data <- ysim()
 p <- ggplot(my_data, aes(x = x, y = y)) +
   geom_point() +
   theme_minimal()
-p
+
+ggsave("libs/images/w11/fake.png", p, width = 7, height = 3.5)
+```
+
+```{r, echo=FALSE, fig.align='center', out.width="80%"}
+include_graphics("libs/images/w11/fake.png")
 ```
 
 ---
 ## Linear model?
 
-```{r, fig.height=2.3}
+```{r, fig.height=2.3, fig.show='hide'}
 p + geom_smooth(method="lm")
+```
+
+```{r, echo=FALSE}
+ggsave("libs/images/w11/linear.png", width = 7, height = 3.5)
+```
+```{r, echo=FALSE, fig.align='center', out.width="80%"}
+include_graphics("libs/images/w11/linear.png")
 ```
 
 Well, that seems bad...
@@ -188,10 +200,16 @@ Well, that seems bad...
 ---
 ### Wouldn't something like this be much nicer?
 
-```{r echo=FALSE}
-p + geom_smooth(method="gam", color="purple", formula = y ~ s(x, k = 8))
+```{r echo=FALSE, fig.show='hide'}
+p + geom_smooth(method="gam", color="purple", formula = y ~ s(x, k = 7))
 ```
 
+```{r, echo=FALSE}
+ggsave("libs/images/w11/nicer.png", width = 7, height = 3.5)
+```
+```{r, echo=FALSE, fig.align='center', out.width="80%"}
+include_graphics("libs/images/w11/nicer.png")
+```
 That's the goal for this week!
 
 ---
@@ -419,7 +437,7 @@ name: final
 
 How accurate your predictions are depends on how good the model is, as always. (Credit: Eric Pedersen & Gavin Simpson)
 
-```{r misspecify, echo = FALSE, fig.height=2.3, fig.width=6}
+```{r misspecify, echo = FALSE, fig.show=FALSE}
 set.seed(15)
 model_list = c("Appropriate model", 
                "Wrong distribution",
@@ -456,6 +474,14 @@ ggplot(aes(x,y), data= model_data)+
   geom_smooth(method=gam, colour="purple", formula = y~s(x,k=12),method.args = list(method="REML"))+
   theme(strip.text = element_text(size=16)) +
   theme_minimal()
+```
+
+
+```{r, echo=FALSE}
+ggsave("libs/images/w11/modelstoo.png", width = 6, height = 2.3)
+```
+```{r, echo=FALSE, fig.align='center', out.width="100%"}
+include_graphics("libs/images/w11/modelstoo.png")
 ```
 
 ---
